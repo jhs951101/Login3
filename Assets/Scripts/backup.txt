@@ -21,7 +21,6 @@
             {
                 Debug.Log(request.downloadHandler.text);
             }
-
         }
     }
     
