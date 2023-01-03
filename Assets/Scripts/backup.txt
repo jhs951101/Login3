@@ -1,11 +1,13 @@
-    void BtnClicked()
+    public void BtnClicked()
     {
         string json = "{'username': 'jake', 'password': '123'}";
-        StartCoroutine(Post("http://URL", json));
+        StartCoroutine(post("http://URL", json));
     }
 
-    IEnumerator Post(string URL, string json)
+    IEnumerator post(string URL, string json)
     {
+        string result = null;
+        
         using (UnityWebRequest request = UnityWebRequest.Post(URL, json))
         {
             byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);
@@ -15,11 +17,7 @@
 
             yield return request.SendWebRequest();
 
-            if (request.isNetworkError || request.isHttpError)
-            {
-                Debug.Log(request.error);
-            }
-            else
+            if (!request.isNetworkError && !request.isHttpError)
             {
                 Debug.Log(request.downloadHandler.text);
             }
@@ -27,16 +25,15 @@
         }
     }
     
-    IEnumerator Get(string URL) {
-        using (UnityWebRequest request = UnityWebRequest.Get(url))
+    IEnumerator get(string URL)
+    {
+        string result = null;
+        
+        using (UnityWebRequest request = UnityWebRequest.Get(URL))
         {
             yield return request.SendWebRequest();
 
-            if (request.isNetworkError || request.isHttpError)
-            {
-                Debug.Log(request.error);
-            }
-            else
+            if (!request.isNetworkError && !request.isHttpError)
             {
                 Debug.Log(request.downloadHandler.text);
             }
